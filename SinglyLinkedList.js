@@ -1,6 +1,17 @@
 // Singly linked list =>  Consists of nodes ,and each node has a value and a pointer to another node. LL contains head , tail and length property
 // No indexing is present
 
+// Follwoing methods on singly LL is implmented -
+// Push
+//Pop
+//shift
+//unshift
+//get
+//set
+//insert
+//remove
+//reverse
+
 class Node {
   constructor(value) {
     this.value = value;
@@ -136,6 +147,42 @@ class Linkedlist {
     console.log("Actual LL after insert operation ", this.head);
     return true;
   }
+
+  // remove method => removes a node from a particular index provided
+  remove(index) {
+    // if invalid index is provided
+    if (index < 0 || index >= this.length) {
+      return null;
+    }
+    if (index === 0) return this.shift(); // remove from the start of the LL
+    if (index === this.length - 1) return this.pop(); // remove last node
+    // else //////////
+    var prevNode = this.get(index - 1); // get previous index node;
+    var removedNode = prevNode.next; // node which is getting removed
+    prevNode.next = removedNode.next; // make prev node point to the removed node next node
+    this.length--;
+    console.log("removed node", removedNode);
+    return removedNode;
+  }
+
+  // reverse the LL in place i.e. not needing extra DS.
+  // basically we need to reverse the direction of the linkedlist
+  reverse() {
+    var nextNode = null;
+    var prevNode = null;
+    var currentNode = this.head;
+    this.head = this.tail;
+    this.tail = currentNode;
+    // for reversing the direction
+    for (var index = 0; index < this.length; index++) {
+      nextNode = currentNode.next; // getting the next node
+      currentNode.next = prevNode; // reversing the direction of the current node
+      prevNode = currentNode; // move prev node pointer by one position to the current node
+      currentNode = nextNode; // make next node as current node
+      // in this way we will reverse the direction of the all nodes
+    }
+    console.log("reverse LL", this.head);
+  }
 }
 
 // creating LL and performing some operations
@@ -143,8 +190,8 @@ var LL = new Linkedlist();
 LL.push(5);
 LL.push(50);
 LL.push(6);
-LL.push(7);
-
-LL.pop();
-LL.shift();
-LL.unshift(100);
+//LL.push(7);
+// LL.pop();
+// LL.shift();
+// LL.unshift(100);
+LL.reverse();
