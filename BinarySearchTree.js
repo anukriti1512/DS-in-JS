@@ -2,9 +2,20 @@
 // Every node to the left of the parent node is always less than the parent.
 // Every node to the right of the parent node is always greater than the parent.
 
+///////////////////////
+// READING VALUE FROM BST IN AN ORDER
+// BFS - Breadth First Search -> it works across the tree first.
+//DFS - Depth First Search -> it goes down vertically and then comes up.
+
 // Below operations have been implemented ----
 // INSERT
 //FIND
+
+// GRAPH TRAVERSAL TECHNIQUES ------
+//BST
+//DFS_preorder
+// DFS_Inorder
+//DFS_Postorder
 
 class Node {
   constructor(value) {
@@ -30,7 +41,7 @@ class BinarySearchTree {
 
       while (true) {
         // if duplicate node is added
-        if ((val = currentNode.value)) return undefined;
+        if (val === currentNode.value) return undefined;
 
         // if Node value is less than the parent node ie. currentNode
         if (val < currentNode.value) {
@@ -71,7 +82,83 @@ class BinarySearchTree {
       }
     }
     // if node is not found
-    if (!found) return false;
+    if (!found) {
+      console.log("No Node found! with value", val);
+      return false;
+    }
+    console.log("Found node", currentNode);
     return currentNode; // return found node
   }
+
+  BFS() {
+    var data = []; // for storing visited nodes i.e. at last we will return this array as a result
+    var queueNodes = []; // to keep track of nodes for BFS traversel
+    var node = this.root;
+    console.log(node);
+    queueNodes.push(node);
+    while (queueNodes.length) {
+      node = queueNodes.shift();
+      data.push(node.value);
+      if (node.left) queueNodes.push(node.left);
+      if (node.right) queueNodes.push(node.right);
+    }
+    console.log("BFS", data);
+    return data;
+  }
+
+  DFS_preOrder() {
+    var data = []; // to track the order we are visiting the nodes
+    var current = this.root;
+    function Traverse(node) {
+      data.push(node.value);
+      if (node.left) Traverse(node.left);
+      if (node.right) Traverse(node.right);
+    }
+    Traverse(current); // current = root
+    console.log("PreOrder", data);
+    return data;
+  }
+
+  DFS_inOrder() {
+    var data = [];
+    var current = this.root;
+    function Traverse(node) {
+      if (node.left) Traverse(node.left);
+      data.push(node.value);
+      if (node.right) Traverse(node.right);
+    }
+    Traverse(current); // root
+    console.log("Inorder", data);
+    return data;
+  }
+
+  DFS_postOrder() {
+    var data = [];
+    var current = this.root;
+    function Traverse(node) {
+      if (node.left) Traverse(node.left);
+      if (node.right) Traverse(node.right);
+      data.push(node.value);
+    }
+    Traverse(current);
+    console.log("PostOrder", data);
+    return data;
+  }
 }
+
+var tree = new BinarySearchTree();
+tree.INSERT(10);
+tree.INSERT(6);
+tree.INSERT(15);
+tree.INSERT(3);
+tree.INSERT(8);
+tree.INSERT(20);
+console.log("BST created", tree);
+tree.FIND(15);
+tree.FIND(100);
+tree.BFS();
+tree.DFS_preOrder();
+tree.DFS_inOrder();
+tree.DFS_postOrder();
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
